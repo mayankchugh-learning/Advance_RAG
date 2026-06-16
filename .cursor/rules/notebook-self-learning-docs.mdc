@@ -1,0 +1,34 @@
+---
+description: Jupyter notebook documentation rules — self-learning markdown and comments only; never change code logic or saved outputs
+globs: "**/*.ipynb"
+alwaysApply: false
+---
+
+# Notebook self-learning documentation
+
+When editing any `.ipynb` in this workspace:
+
+## Allowed
+
+- Add, update, or delete **markdown** cells
+- Add, update, or delete **`#` comments** in code cells
+- Insert section headers, prerequisites, TOC, glossary, takeaways, pipeline diagrams
+- Fix markdown numbers/stats **after verifying** against saved cell `outputs`
+
+## Forbidden
+
+- Change executable code (imports, logic, commands, model names, parameters)
+- Modify, clear, or regenerate cell **`outputs`** or **`execution_count`**
+- Change metrics in markdown without checking saved execution results
+
+## Structure
+
+Each major code block needs markdown **above** it explaining *why* before *how*.
+
+Intro: audience, prerequisites, run order, TOC.  
+Close: self-check takeaways + pipeline summary table.
+
+## Reference
+
+Follow the full workflow in `.cursor/skills/notebook-self-learning-docs/SKILL.md`.  
+Example notebook: `HybridSearch_Weaviate_Cohere_ReRanking/HybridSearch_Weaviate_Cohere_15Jun26_FINAL.ipynb`.
