@@ -1,6 +1,8 @@
 # Advanced RAG Ep 03 & 04 — Reranking Pipeline Architecture
 ### by Mayank Chugh | IT AI Enthusiast | @itaienthusiast
 
+Diagram for the comparison half of [`Reranking2026_Notebook.ipynb`](Reranking2026_Notebook.ipynb). One `all-MiniLM-L6-v2` shortlist (384 dimensions, confirmed in the notebook output) is rescored by `BM25Okapi`, `cross-encoder/ms-marco-MiniLM-L-6-v2`, and Cohere `rerank-v3.5` through `cohere.ClientV2()`. The notebook’s later “2026 reranker frontier” section (Jina, Qwen3-Reranker, mxbai, Voyage) is a written decision guide after this comparison. The notebook also runs `bm25s` beside classic `rank_bm25`; the lexical box below is the `BM25Okapi` path used in the side-by-side.
+
 **Render at:** [mermaid.live](https://mermaid.live) | Notion | GitHub | Medium
 
 ---
@@ -9,7 +11,7 @@
 flowchart TD
   subgraph P1["Phase 1 — Corpus and Embedding"]
     direction TB
-    A([8 Sample Documents]) --> B["Sentence Transformer\nall-MiniLM-L6-v2\n768-dim embeddings"]
+    A([8 Sample Documents]) --> B["Sentence Transformer\nall-MiniLM-L6-v2\n384-dim embeddings"]
     B --> C["Cosine Similarity\nquery vs all docs"]
     C --> D["Ranked Top-4\nCandidates"]
   end
@@ -28,7 +30,7 @@ flowchart TD
 
   subgraph P2c["Phase 2c — Cohere Rerank API"]
     direction TB
-    K["cohere.Client\nrerank-english-v3.0"] --> L["Relevance Scores\nnormalised 0 to 1"]
+    K["cohere.ClientV2\nrerank-v3.5"] --> L["Relevance Scores\nnormalised 0 to 1"]
   end
 
   subgraph P3["Phase 3 — Compare and Select"]

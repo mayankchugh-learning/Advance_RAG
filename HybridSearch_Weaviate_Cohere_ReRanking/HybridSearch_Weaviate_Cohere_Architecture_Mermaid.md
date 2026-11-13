@@ -1,6 +1,8 @@
 # Advanced RAG Ep 02 — Pipeline Architecture
 ### by Mayank Chugh | IT AI Enthusiast | @itaienthusiast
 
+Diagram for [`HybridSearch_Weaviate_Cohere_15Jun26_FINAL.ipynb`](HybridSearch_Weaviate_Cohere_15Jun26_FINAL.ipynb) (June 2026). It follows that notebook: collection `RAG` embedded with `BAAI/bge-base-en-v1.5`, a custom `WeaviateV4HybridRetriever` at `alpha=0.5`, Cohere `rerank-v3.5`, and `Qwen/Qwen3-8B` in NF4 4-bit.
+
 **Render at:** [mermaid.live](https://mermaid.live) | Notion | GitHub | Medium
 
 ---
@@ -10,8 +12,8 @@ flowchart TD
   subgraph P1["🔧 Phase 1 — Setup & Index"]
     direction TB
     A([Weaviate Cloud Cluster]) --> B[HF Token + API Keys]
-    B --> C["Schema: RAG class\ntext2vec-huggingface\n(MiniLM-L6-v2)"]
-    C --> D[WeaviateHybridSearch\nRetriever — alpha=0.5]
+    B --> C["Collection RAG\ntext2vec-huggingface\nBAAI/bge-base-en-v1.5"]
+    C --> D["WeaviateV4HybridRetriever\nalpha=0.5"]
   end
 
   subgraph P2["🔍 Phase 2 — Hybrid Retrieval"]
@@ -25,9 +27,9 @@ flowchart TD
 
   subgraph P3["🎯 Phase 3 — Rerank & Generate"]
     direction TB
-    J[Cohere Rerank API\nCohereRerank] --> K[ContextualCompression\nRetriever]
-    K --> L["Zephyr 7B Beta\n(NF4 4-bit quant)"]
-    L --> M([Final Answer\nrelevance score 0.99])
+    J["Cohere rerank-v3.5\nCohereRerank"] --> K[ContextualCompression\nRetriever]
+    K --> L["Qwen3-8B\nNF4 4-bit"]
+    L --> M([Final Answer])
   end
 
   P1 --> P2
@@ -61,8 +63,9 @@ flowchart TD
 ## Key Design Decisions
 
 - **Parallel branches in Phase 2** — BM25 and semantic search run simultaneously from the same user query, both feeding into Weaviate's RRF fusion step
-- **Phase 1 feeds Phase 2 via `D → H`** — the WeaviateHybridSearchRetriever is the bridge between setup and retrieval
-- **Reranker wraps the retriever** — `ContextualCompressionRetriever` sits between Cohere and Zephyr, acting as a quality filter before generation
+- **Phase 1 feeds Phase 2 via `D → H`** — `WeaviateV4HybridRetriever` (`alpha=0.5`) is the bridge between setup and retrieval
+- **Reranker wraps the retriever** — `ContextualCompressionRetriever` sits between Cohere `rerank-v3.5` and Qwen3-8B, acting as a quality filter before generation
+- **Saved demo scores reorder chunks** — for *“What is Abstractive Question Answering?”* the notebook’s executed Cohere rerank returned 0.6641, 0.3853, and 0.0860
 - **Oval nodes** = external I/O (user query, final answer); **rectangle nodes** = internal processing steps
 
 ---

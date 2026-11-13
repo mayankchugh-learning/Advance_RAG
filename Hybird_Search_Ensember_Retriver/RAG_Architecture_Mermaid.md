@@ -1,6 +1,8 @@
 # RAG Architecture — Mermaid Diagram
 ### by Mayank Chugh | IT AI Enthusiast | @itaienthusiast
 
+This is the shared shape of [`RAG_HybridSearch_Final.ipynb`](RAG_HybridSearch_Final.ipynb): documents are chunked and embedded into a database, a query is embedded, similarity search returns a top-K, and an LLM answers. In that notebook the similarity-search step is an ensemble of BM25 and a vector retriever. See [How this maps to the notebook](#how-this-maps-to-the-notebook) under the diagram.
+
 Paste the code block below into any Mermaid renderer:
 - **mermaid.live** — https://mermaid.live
 - **Notion** — paste in a code block, set language to `mermaid`
@@ -70,6 +72,19 @@ flowchart LR
     class RR rrStyle
     class LLM llmStyle
 ```
+
+---
+
+## How this maps to the notebook
+
+`RAG_HybridSearch_Final.ipynb` draws two retrieval branches and then merges them before the LLM:
+
+1. **Sparse.** TF-IDF built from scratch on a toy corpus, then BM25 (`rank_bm25`) on the paper chunks. Formulas are in [`TFIDF_Formula_Reference.md`](TFIDF_Formula_Reference.md).
+2. **Dense.** `BAAI/bge-base-en-v1.5` embeddings stored in Chroma.
+3. **Ensemble.** LangChain’s ensemble retriever mixes the two lists with an alpha weight. That mix is the “similarity search” node above.
+4. **Generate.** Zephyr 7B loaded in 4-bit reads the fused top-K.
+
+The slide deck for the same episode is `HybridSearch_Advance_RAG.pdf`.
 
 ---
 

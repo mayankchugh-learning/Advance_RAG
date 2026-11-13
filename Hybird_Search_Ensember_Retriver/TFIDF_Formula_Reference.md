@@ -1,6 +1,8 @@
 # TF-IDF Formula Reference
 ### by Mayank Chugh | IT AI Enthusiast | @itaienthusiast
 
+Worked formulas for the sparse half of [`RAG_HybridSearch_Final.ipynb`](RAG_HybridSearch_Final.ipynb) (section “Keyword Search: TF-IDF from Scratch”). The notebook then moves from this toy corpus to BM25 on the RAG paper.
+
 ---
 
 ## Term Frequency (TF)
