@@ -1,6 +1,6 @@
 # Advance RAG
 
-Hands-on tutorials for retrieval-augmented generation beyond a single vector search: hybrid retrieval, reranking, compression, query rewriting, and long-context ordering.
+Hands-on tutorials for retrieval-augmented generation beyond a single vector search: hybrid retrieval, reranking, compression, parent-document retrieval, query rewriting, and long-context ordering.
 
 Each folder is one self-contained notebook from the Advanced RAG series by **Mayank Chugh** ([@itaienthusiast](https://www.youtube.com/@itaienthusiast)). Open the notebook and run it from top to bottom. The markdown inside the notebook is the lesson; the files next to it (Mermaid diagrams, formula notes, slide PDFs, and sample text) are the references for that lesson.
 
@@ -16,8 +16,27 @@ Episode numbers follow each notebook’s own title. Directory names are the publ
 | 4 | [`Lost_In_the_Middle_MergerRetriever_LongContextReorder`](Lost_In_the_Middle_MergerRetriever_LongContextReorder/) | `MergerRetriever_LongContextReorder.ipynb` | Video 04. Merge two retrievers and reorder chunks so the best evidence sits at the start and end of the prompt |
 | 5 | [`RAGFusion`](RAGFusion/) | `RAGFusion.ipynb` | Episode 5. Several phrasings of one question, fused with reciprocal rank fusion over Singapore travel notes |
 | 6 | [`FlashRank_RAG`](FlashRank_RAG/) | `FlashRank_RAG_Clean_run.ipynb` | Episode 6. CPU ONNX rerankers (Nano through Large) on their own, then inside a FAISS RAG chain |
-| 7 | [`ContextualCompression_RAG`](ContextualCompression_RAG/) | `ContextualCompression_RAG_Final.ipynb` | Four ways to trim retrieved chunks before the LLM: extract, filter, embedding threshold, and a compressor pipeline |
-| 8 | [`SelfQuery_RAG`](SelfQuery_RAG/) | `SelfQuery_RAG_Clean.ipynb` | The LLM turns a plain question into a semantic query plus metadata filters on a sample air-cargo log |
+| 7 | [`ParentDocument_RAG`](ParentDocument_RAG/) | `ParentDocument_RAG.ipynb` | Episode 07. Search 300-character child chunks, hand the LLM the parent (the whole document, or 1,200-character chunks), then answer with Qwen3-4B |
+| 8 | [`ContextualCompression_RAG`](ContextualCompression_RAG/) | `ContextualCompression_RAG_Final.ipynb` | Four ways to trim retrieved chunks before the LLM: extract, filter, embedding threshold, and a compressor pipeline |
+| 9 | [`SelfQuery_RAG`](SelfQuery_RAG/) | `SelfQuery_RAG_Clean.ipynb` | The LLM turns a plain question into a semantic query plus metadata filters on a sample air-cargo log |
+
+## Notebooks and videos
+
+Public watch links for the Advanced RAG notebooks in this repository. Episode order matches the path above.
+
+| Notebook | YouTube |
+|----------|---------|
+| [`RAG_HybridSearch_Final.ipynb`](Hybird_Search_Ensember_Retriver/RAG_HybridSearch_Final.ipynb) | [Hybrid Search RAG Pipeline From Scratch \| Advanced RAG \| LangChain + BM25 + ChromaDB](https://www.youtube.com/watch?v=eNzsuWaOCEI) |
+| [`HybridSearch_Weaviate_Cohere_15Jun26_FINAL.ipynb`](HybridSearch_Weaviate_Cohere_ReRanking/HybridSearch_Weaviate_Cohere_15Jun26_FINAL.ipynb) | [Hybrid Search + Cohere Reranking in RAG \| Weaviate + Qwen3-8B \| Advanced RAG Tutorial](https://www.youtube.com/watch?v=iFT_MniMblk) |
+| [`Reranking2026_Notebook.ipynb`](Reranking_From_Scratch(2026)_BM25_Cross-Encoder_Cohere_Qwen3_Jina_AI_Advanced_RAG/Reranking2026_Notebook.ipynb) | [Reranking in RAG From Scratch (2026) \| BM25 + CrossEncoder + Cohere + Qwen3 + Jina AI \| Advanced RAG](https://www.youtube.com/watch?v=XVZOQ6Fwz2c) |
+| [`MergerRetriever_LongContextReorder.ipynb`](Lost_In_the_Middle_MergerRetriever_LongContextReorder/MergerRetriever_LongContextReorder.ipynb) | [Advanced RAG: Fix “Lost in the Middle” with MergerRetriever & LongContextReorder \| LangChain 2026](https://www.youtube.com/watch?v=w5cHGeLV-ro) |
+| [`RAGFusion.ipynb`](RAGFusion/RAGFusion.ipynb) | [RAG Fusion Explained: Reciprocal Rank Fusion (RRF) With Real Code](https://www.youtube.com/watch?v=BwgBU0CekFk) |
+| [`FlashRank_RAG_Clean_run.ipynb`](FlashRank_RAG/FlashRank_RAG_Clean_run.ipynb) | [FlashRank Reranking for RAG: 11ms on CPU, No GPU \| Advanced RAG Ep 6](https://www.youtube.com/watch?v=31Qwp8xvY_s) |
+| [`ParentDocument_RAG.ipynb`](ParentDocument_RAG/ParentDocument_RAG.ipynb) | — |
+| [`ContextualCompression_RAG_Final.ipynb`](ContextualCompression_RAG/ContextualCompression_RAG_Final.ipynb) | [My RAG Compressor Deleted the Answer \| LangChain Contextual Compression (Ep 6)](https://www.youtube.com/watch?v=Emvui2Haykc) |
+| [`SelfQuery_RAG_Clean.ipynb`](SelfQuery_RAG/SelfQuery_RAG_Clean.ipynb) | [Self-Query Retrieval in LangChain \| LLM Metadata Filters (Ep 6)](https://www.youtube.com/watch?v=Diw3eKOLEzg) |
+
+`ParentDocument_RAG.ipynb` is Episode 07 in this repo. None of the titles in the channel export match that notebook, so that row has no video yet.
 
 ## What you need
 
@@ -29,6 +48,7 @@ Episode numbers follow each notebook’s own title. Directory names are the publ
 | Lost in the middle | Colab T4 GPU recommended | `alice-in-wonderland.pdf` is in the folder (public-domain text). `OPENAI_API_KEY` if you use `gpt-4o-mini`; the notebook can also load a local Qwen model. |
 | RAG Fusion | Colab T4 GPU | Six notes in [`RAGFusion/data`](RAGFusion/data/). Local Qwen3-4B runs first. `ANTHROPIC_API_KEY` and `OPENAI_API_KEY` are fallbacks. |
 | FlashRank | Colab T4 GPU for the local LLM only | FlashRank, embeddings, and FAISS run on CPU. The notebook downloads the 2022 State of the Union text. Paid keys are fallbacks. |
+| Parent document | Colab T4 GPU for Qwen3-4B | Four sample maintenance and cargo documents are written by the notebook. Embeddings use the GPU when the runtime has one. `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` if you generate without a GPU. `HF_TOKEN` is optional. |
 | Contextual compression | Colab T4 GPU for the local LLM | Same speech file, downloaded by the notebook. Paid keys are fallbacks. |
 | Self-query | Colab T4 GPU recommended | Twelve sample shipments are written in the notebook. Paid keys are fallbacks if the local model is unavailable. |
 
@@ -76,6 +96,7 @@ Advance_RAG/
 ├── Lost_In_the_Middle_MergerRetriever_LongContextReorder/
 ├── RAGFusion/                                # multi-query RRF; data/*.txt
 ├── FlashRank_RAG/
+├── ParentDocument_RAG/                      # child search, parent context, Qwen3-4B
 ├── ContextualCompression_RAG/
 └── SelfQuery_RAG/
 ```
@@ -86,4 +107,4 @@ Advance_RAG/
 
 ## License
 
-MIT. See [LICENSE](LICENSE). Sample corpora are separate: the Alice PDF is a public-domain text, the Lewis et al. and Liu et al. PDFs are the papers those notebooks study, and the Singapore notes and air-cargo rows are tutorial data written for this series.
+MIT. See [LICENSE](LICENSE). Sample corpora are separate: the Alice PDF is a public-domain text, the Lewis et al. and Liu et al. PDFs are the papers those notebooks study, and the Singapore notes, air-cargo rows, and aircraft-maintenance documents are tutorial data written for this series.
